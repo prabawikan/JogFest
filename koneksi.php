@@ -2,7 +2,7 @@
 $servernameku = "localhost";
 $username = "root";
 $dbname = "travel";
-$password = "";
+$password = "22523238";
 
 // Create connection
 $conn = mysqli_connect($servernameku, $username, $password, $dbname);
