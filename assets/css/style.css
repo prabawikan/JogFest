@@ -1,0 +1,12 @@
+.btn-form{
+  font-size: 16px;
+  border: 2px solid #4b70e2;
+  padding: 10px 15px;
+  border-radius: 30px;
+  color: #4b70e2;
+}
+
+.btn-login{
+  background-color: #000;
+  font-size: 50px;
+}
