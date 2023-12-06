@@ -53,7 +53,7 @@ include 'koneksi.php';
           <div class="col-12">
             <nav class="main-nav">
               <!-- ***** Logo Start ***** -->
-              <a href="index.html" class="logo">JOG<em>Fest</em></a>
+              <a href="index.html" class="logo">JOG<em></em></a>
               <!-- ***** Logo End ***** -->
               <!-- ***** Menu Start ***** -->
               <ul class="nav">
