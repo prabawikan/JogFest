@@ -1,20 +1,22 @@
 <?php
 include 'koneksi.php';
 
-if(isset($_GET['id_event'])) {
-  $id_event = $_GET['id_event'];
+session_start();
 
-  // Query database untuk mendapatkan informasi tiket berdasarkan id_event
-  $query = "SELECT * FROM event WHERE id_event = $id_event";
-  $result = mysqli_query($conn, $query);
+if (isset($_GET['id_event'])) {
+    $id_event = $_GET['id_event'];
 
-  if(mysqli_num_rows($result) > 0) {
-    $row = mysqli_fetch_assoc($result);
-  } else {
-    echo "Tiket tidak ditemukan.";
-  }
+    // Query database untuk mendapatkan informasi tiket berdasarkan id_event
+    $query = "SELECT * FROM event WHERE id_event = $id_event";
+    $result = mysqli_query($conn, $query);
+
+    if (mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+    } else {
+        echo "Tiket tidak ditemukan.";
+    }
 } else {
-  echo "Parameter id_event tidak ditemukan.";
+    echo "Parameter id_event tidak ditemukan.";
 }
 ?>
 
@@ -23,13 +25,15 @@ if(isset($_GET['id_event'])) {
 <!DOCTYPE html>
 <html lang="en">
 
-  <head>
+<head>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="Tooplate">
-    <link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap"
+        rel="stylesheet">
 
     <title>ArtXibition Ticket Detail Page</title>
 
@@ -42,24 +46,34 @@ if(isset($_GET['id_event'])) {
     <link rel="stylesheet" type="text/css" href="assets/css/owl-carousel.css">
 
     <link rel="stylesheet" href="assets/css/tooplate-artxibition.css">
-<!--
-
+    <!--
 
 -->
-    </head>
-    
-    <body>
-    
+    <style>
+        .isi {
+            font-size: 16px;
+            font-family: "Poppins";
+            font-weight: 400;
+        }
+
+        .image {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+
     <!-- ***** Preloader Start ***** -->
     <div id="js-preloader" class="js-preloader">
-      <div class="preloader-inner">
-        <span class="dot"></span>
-        <div class="dots">
-          <span></span>
-          <span></span>
-          <span></span>
+        <div class="preloader-inner">
+            <span class="dot"></span>
+            <div class="dots">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </div>
-      </div>
     </div>
     <!-- ***** Preloader End ***** -->
 
@@ -74,11 +88,21 @@ if(isset($_GET['id_event'])) {
                         <!-- ***** Logo End ***** -->
                         <!-- ***** Menu Start ***** -->
                         <ul class="nav">
-                            <li><a href="index.php" >Home</a></li>
-                            <li><a href="rent-venue.html" class="active">Venue</a></li>
-                            <li><a href="tickets.php">Tickets</a></li>
-                            <li><a href="about.html">About Us</a></li>
-                        </ul>        
+                            <li><a href="index.php">Home</a></li>
+                            <li><a href="berita_page.php">News</a></li>
+                            <li><a href="tickets.php" class="active">Tickets</a></li>
+                            <li><a href="about.php">About Us</a></li>
+                            <?php
+                            // Periksa apakah pengguna sudah login
+                            if (isset($_SESSION['user_id'])) {
+                                // Tampilkan ikon profil dan menu logout
+                                echo '<li><a href="profile.php"><i class="fa fa-user"></i> Profile</a></li>';
+                            } else {
+                                // Jika belum login, tampilkan tombol login
+                                echo '<li><a style="background-color: #2a2a2a; padding: 0 20px; color:white; border-radius: 20px" class="btn-login" href="login.php">Login</a></li>';
+                            }
+                            ?>
+                        </ul>
                         <a class='menu-trigger'>
                             <span>Menu</span>
                         </a>
@@ -107,34 +131,48 @@ if(isset($_GET['id_event'])) {
             <div class="row">
                 <div class="col-lg-8">
                     <div class="left-image">
-                    <img src="assets/images/<?php echo $row["gambar"]; ?>" alt="<?php echo $row["judul"]; ?>">
+                        <img class="image" src="assets/images/<?php echo $row["gambar"]; ?>"
+                            alt="<?php echo $row["judul"]; ?>">
+                        <p class="isi mt-3">
+                            <?php echo $row["isi"]; ?>
+                        </p>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="right-content">
-                        <h4 class="mb-4" ><?php echo $row["judul"] ?></h4>
+                        <h4 class="mb-4">
+                            <?php echo $row["judul"] ?>
+                        </h4>
                         <ul>
-                            <li><i class="fa fa-clock-o"></i><?php echo $row["tanggal"] ?></li>
-                            <li><i class="fa fa-map-marker"></i><?php echo $row["lokasi"] ?></li>
+                            <li><i class="fa fa-clock-o"></i>
+                                <?php echo $row["tanggal"] ?>
+                            </li>
+                            <li><i class="fa fa-map-marker"></i>
+                                <?php echo $row["lokasi"] ?>
+                            </li>
                         </ul>
                         <div class="quantity-content">
                             <div class="left-content">
-                                <h6>Standard Ticket</h6>
-                                <p>Rp. <?php echo $row["harga"] ?></p>
+                                <h6>Harga Tiket</h6>
+                                <p>Rp.
+                                    <?php echo $row["harga"] ?>
+                                </p>
                             </div>
                             <div class="right-content">
                                 <div class="quantity buttons_added">
-                                    <input type="button" value="-" class="minus"><input type="number" step="1" min="1" max="" name="quantity" value="1" title="Qty" class="input-text qty text" size="4" pattern="" inputmode=""><input type="button" value="+" class="plus">
+                                    <input type="button" value="-" class="minus"><input type="number" step="1" min="1"
+                                        max="" name="quantity" value="1" title="Qty" class="input-text qty text"
+                                        size="4" pattern="" inputmode=""><input type="button" value="+" class="plus">
                                 </div>
                             </div>
                         </div>
-                        <div class="total">
-                            <h4>Total: $210.00</h4>
-                            <div class="main-dark-button"><a href="#">Purchase Tickets</a></div>
-                        </div>
-                        <div class="warn">
-                            <p>*You Can Only Buy 10 Tickets For This Show</p>
-                        </div>
+                        <?php
+                        if (isset($_SESSION['user_id'])) {
+                            echo '<div class="main-dark-button"><a href="#t" data-login="1">Beli Tiket</a></div>';
+                        } else {
+                            echo '<div class="main-dark-button"><a href="login.php">Login untuk membeli tiket</a></div>';
+                        }
+                        ?>
                     </div>
                 </div>
             </div>
@@ -154,11 +192,10 @@ if(isset($_GET['id_event'])) {
                             <div class="col-lg-6">
                                 <div class="menu">
                                     <ul>
-                                        <li><a href="index.php" class="active">Home</a></li>
-                                        <li><a href="about.html">About Us</a></li>
-                                        <li><a href="rent-venue.html">Rent Venue</a></li>
-                                        <li><a href="shows-events.html">Shows & Events</a></li> 
-                                        <li><a href="tickets.html">Tickets</a></li> 
+                                        <li><a href="index.php">Home</a></li>
+                                        <li><a href="berita_page.php">News</a></li>
+                                        <li><a href="tickets.php" class="active">Tickets</a></li>
+                                        <li><a href="about.php">About Us</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -168,8 +205,8 @@ if(isset($_GET['id_event'])) {
             </div>
         </div>
     </footer>
-    
-    
+
+
 
     <!-- jQuery -->
     <script src="assets/js/jquery-2.1.0.min.js"></script>
@@ -182,15 +219,43 @@ if(isset($_GET['id_event'])) {
     <script src="assets/js/scrollreveal.min.js"></script>
     <script src="assets/js/waypoints.min.js"></script>
     <script src="assets/js/jquery.counterup.min.js"></script>
-    <script src="assets/js/imgfix.min.js"></script> 
-    <script src="assets/js/mixitup.js"></script> 
+    <script src="assets/js/imgfix.min.js"></script>
+    <script src="assets/js/mixitup.js"></script>
     <script src="assets/js/accordions.js"></script>
     <script src="assets/js/owl-carousel.js"></script>
     <script src="assets/js/quantity.js"></script>
-    
+
     <!-- Global Init -->
     <script src="assets/js/custom.js"></script>
 
-  </body>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('[data-login="1"]').on('click', function (e) {
+                e.preventDefault();
+
+                // Periksa status login pengguna
+                <?php if (isset($_SESSION['user_id'])): ?>
+                    // Jika pengguna sudah login, tampilkan konfirmasi
+                    var confirmBuy = confirm('Apakah Anda yakin ingin membeli tiket?');
+
+                    if (confirmBuy) {
+                        // Jika pengguna yakin, munculkan alert pembelian berhasil
+                        alert('Anda berhasil membeli tiket.');
+                    }
+                <?php else: ?>
+                    // Jika pengguna belum login, munculkan alert untuk login
+                    alert('Anda harus login terlebih dahulu.');
+                    // Redirect ke halaman login
+                    window.location.href = 'login.php';
+                <?php endif; ?>
+            });
+        });
+    </script>
+
+
+</body>
 
 </html>

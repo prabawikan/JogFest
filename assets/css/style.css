@@ -10,3 +10,21 @@
   background-color: #000;
   font-size: 50px;
 }
+
+.main-sidebar .brand-link .logo{
+    line-height: 80px;
+    color: #656c74;
+    font-size: 28px;
+    font-weight: 700;
+    float: left;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+.main-sidebar .brand-link .logo em {
+  font-style: normal;
+  color: #2a2a2a;
+  font-weight: 900;
+}
+

@@ -12,24 +12,24 @@ if(isset($_POST["register"])){
   }
 }
 
-// if(isset($_POST["login"])){
-//   $username = $_POST['username'];
-//   $password = $_POST['password'];
+if(isset($_POST["login"])){
+  $username = $_POST['username'];
+  $password = $_POST['password'];
 
-//   $result = mysqli_query($con,"SELECT * FROM user WHERE username = '$username'");
+  $result = mysqli_query($con,"SELECT * FROM user WHERE username = '$username'");
 
-//   //cek username
-//   if(mysqli_num_rows($result) === 1){
+  //cek username
+  if(mysqli_num_rows($result) === 1){
 
-//     $row = mysqli_fetch_assoc($result);
-//     if (password_verify($password, $row["password"])){
-//       header("Location: index.php");
-//       exit;
-//     }
-//   }
-// }
+    $row = mysqli_fetch_assoc($result);
+    if (password_verify($password, $row["password"])){
+      header("Location: index.php");
+      exit;
+    }
+  }
+}
 
-// $error = true;
+$error = true;
 ?>
 
 <!DOCTYPE html>
@@ -50,6 +50,7 @@ if(isset($_POST["register"])){
           <input class="form__input" type="text" placeholder="Username" name="username" id="username" />
           <input class="form__input" type="password" placeholder="Password" name="password" id="password" />
           <button type="submit" class="form__button button submit" name="register">SIGN UP</button>
+          <a style="margin-top: 20px; text-decoration:underline;" href="register-admin.php">Sign Up Admin</a>
         </form>
       </div>
       <div class="switch" id="switch-cnt">
