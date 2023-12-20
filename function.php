@@ -25,11 +25,14 @@ function query($query)
 {
   global $conn;
 
-  if(isset($_GET['search'])) {
+  if (isset($_GET['search'])) {
     $search = $_GET['search'];
     $tanggal = isset($_GET['tanggal']) ? $_GET['tanggal'] : '';
 
-    $query = "SELECT * FROM event WHERE judul LIKE '%$search%'";
+    $query = "SELECT e.*, k.nama_kategori 
+      FROM event e
+      LEFT JOIN kategori k ON e.id_kategori = k.id_kategori
+      WHERE e.judul LIKE '%$search%'";
 
     if (!empty($tanggal)) {
       $query .= " AND tanggal = '$tanggal'";

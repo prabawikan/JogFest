@@ -7,7 +7,7 @@ $target_dir = "assets/images/";
 $get_data = mysqli_query($conn, "SELECT gambar FROM event where id_event=$id");
 $hasil = mysqli_fetch_array($get_data, MYSQLI_ASSOC);
 if ($hasil['gambar'] <> "-") {
-  unlink("assets/images/" . $hasil['gambar']);
+	unlink("assets/images/" . $hasil['gambar']);
 }
 
 
@@ -17,5 +17,3 @@ echo "<script>
 	</script>";
 echo "<meta http-equiv=refresh content=0;url=event.php>";
 ?>
-
-

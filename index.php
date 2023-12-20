@@ -231,6 +231,10 @@ session_start();
   <div class="coming-events">
     <div class="container">
       <h2 class="title">Event</h2>
+      <a href="tickets.php" class="berita-page-link mb-4 text-center text-light">
+        Lihat Semua Event <i class="fa-solid fa-arrow-right"></i>
+      </a>
+
       <div class="row">
 
 
@@ -244,7 +248,7 @@ session_start();
               <div class="event-item"
                 style="border: 2px solid white;border-radius:20px;overflow:hidden;box-shadow: 0px 10px 15px -10px rgba(0, 0, 0, 0.5);">
                 <div class="thumb">
-                  <img src="assets/images/<?php echo $row["gambar"]; ?>" alt="" />
+                  <img src="assets/images/<?php echo $row["gambar"]; ?>" alt="<?php echo $row["gambar"]; ?>" />
                 </div>
                 <div class="down-content">
                   <h4>
@@ -288,7 +292,7 @@ session_start();
           }
           ?>
           <div class="col-lg-4 mb-4">
-            <div class="berita-item" style="border: 2px solid black;border-radius:20px;overflow:hidden;">
+            <div class="berita-item" style="overflow:hidden;box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);">
               <div class="header-content">
                 <h5>
                   <?php echo $row["nama_kategori"]; ?>
@@ -298,7 +302,7 @@ session_start();
                 </p>
               </div>
               <div class="thumb">
-                <img src="assets/images/<?php echo $row["gambar"]; ?>" alt="" />
+                <img src="assets/images/<?php echo $row["gambar"]; ?>" alt="<?php echo $row["gambar"]; ?>" />
               </div>
               <div class="content">
                 <h4 class="text-left mb-2">

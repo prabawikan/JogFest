@@ -188,7 +188,7 @@ https://www.tooplate.com/view/2125-artxibition
           }
           ?>
           <div class="col-lg-4 mb-4">
-            <div class="berita-item" style="box-shadow: 0 4px 4px rgba(0, 0, 0, 0.3);border:1px solid #cccccc;border-radius:20px;overflow:hidden;">
+          <div class="berita-item" style="overflow:hidden;box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);">
               <div class="header-content">
                 <h5>
                   <?php echo $row["nama_kategori"]; ?>

@@ -143,7 +143,7 @@ https://www.tooplate.com/view/2125-artxibition
         // $result = mysqli_query($conn, 'SELECT * FROM event');
         $rows = query("SELECT e.*, k.nama_kategori
         FROM event e
-        JOIN kategori k ON e.id_kategori = k.id_kategori
+        LEFT JOIN kategori k ON e.id_kategori = k.id_kategori
         ORDER BY e.id_event DESC");
         ?>
         <?php
@@ -168,7 +168,7 @@ https://www.tooplate.com/view/2125-artxibition
               id="ticket-item-template">
               <div class="thumb">
                 <img src="assets/images/<?php echo $row["gambar"]; ?>" alt="" class="ticket-image" />
-                <?php echo $row['nama_kategori'] ?>
+                <?php echo $row["nama_kategori"] ?>
                 <div class="price" style=" padding:10px; border-radius: 5px">
                   <span>
                     <em class="ticket-price" style="font-size:16px;">
