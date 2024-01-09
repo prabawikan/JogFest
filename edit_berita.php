@@ -82,7 +82,7 @@ $data = mysqli_query($conn, "SELECT * FROM berita WHERE id_berita = $id");
                   <div class="form-group row mb-3">
                     <div class="col-sm-2 col-form-label"><label for="jenis">Kategori</label></div>
                     <div class="col-sm-10">
-                      <select name="jenis" id="jenis" class="form-control select2">
+                      <select name="kategori" id="jenis" class="form-control select2">
                         <?php
                         $results_jenis = mysqli_query($conn, "SELECT * FROM kategori");
                         $option_jenis = '';
