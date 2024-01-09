@@ -78,21 +78,23 @@ if ($data) {
                   </div>
                 </div>
 
-                <div class="form-group row">
-                  <div class="col-sm-2 col-form-label"><label for="exampleInputKategori">Kategori</label></div>
+                <div class="form-group row mb-3">
+                  <div class="col-sm-2 col-form-label"><label for="jenis">Kategori</label></div>
                   <div class="col-sm-10">
-                    <select name="kategori" class="form-control select2" data-placeholder="Pilih Kategori">
+                    <select name="jenis" id="jenis" class="form-control select2">
                       <?php
-                      $results = mysqli_query($conn, "SELECT * from kategori");
-                      $option = '';
-                      while ($kategori = mysqli_fetch_array($results, MYSQLI_ASSOC)) {
-                        if (ucwords($_SESSION['nama_kategori']) == ucwords($kategori['nama_kategori'])) {
-                          $option .= '<option disabled value = "' . $kategori['id_kategori'] . '">' . $kategori['nama_kategori'] . '</option>';
+                      $results_jenis = mysqli_query($conn, "SELECT * FROM kategori");
+                      $option_jenis = '';
+
+                      while ($row_jenis = mysqli_fetch_array($results_jenis, MYSQLI_ASSOC)) {
+                        if ($row['id_kategori'] == $row_jenis['id_kategori']) {
+                          $option_jenis .= '<option selected value="' . $row_jenis['id_kategori'] . '">' . $row_jenis['nama_kategori'] . '</option>';
                         } else {
-                          $option .= '<option name="id" value = "' . $kategori['id_kategori'] . '">' . $kategori['nama_kategori'] . ' </option>';
+                          $option_jenis .= '<option value="' . $row_jenis['id_kategori'] . '">' . $row_jenis['nama_kategori'] . '</option>';
                         }
                       }
-                      echo $option;
+
+                      echo $option_jenis;
                       ?>
                     </select>
                   </div>
@@ -114,6 +116,13 @@ if ($data) {
                   </div>
                 </div>
 
+                <?php
+                // Format tanggal dari database
+                $tanggal_database = $row['tanggal'];
+
+                // Ubah format tanggal
+                $tanggal = date("m-d-Y", strtotime($tanggal_database));
+                ?>
                 <div class="form-group row">
                   <div class="col-sm-2 col-form-label"><label for="exampleInputTgl">Tanggal</label></div>
                   <div class="col-sm-10">
@@ -123,7 +132,7 @@ if ($data) {
                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                       </div>
                       <input type="text" class="form-control datetimepicker-input" data-target="#reservationdate"
-                        name="tanggal" value="<?php echo $row['tanggal']; ?>" />
+                        name="tanggal" value="<?php echo $tanggal; ?>" />
                     </div>
                   </div>
                 </div>

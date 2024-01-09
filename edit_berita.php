@@ -2,15 +2,14 @@
 include "header.php";
 
 $id = $_GET['id'];
-
 $data = mysqli_query($conn, "SELECT * FROM berita WHERE id_berita = $id");
 
-if ($data) {
-  $row = mysqli_fetch_assoc($data);
+// if ($data) {
+//   $row = mysqli_fetch_assoc($data);
 
-} else {
-  echo "Data tidak ditemukan.";
-}
+// } else {
+//   echo "Data tidak ditemukan.";
+// }
 
 ?>
 
@@ -56,74 +55,86 @@ if ($data) {
 
 
 
+              <?php
+              while ($row = mysqli_fetch_array($data, MYSQLI_ASSOC)) { ?>
 
 
 
-              <form role="form" method="POST" action="proses_edit_berita.php" enctype="multipart/form-data">
-                <input type="hidden" name="id_berita" value="<?php echo $row['id_berita']; ?>">
+                <form role="form" method="POST" action="proses_edit_berita.php" enctype="multipart/form-data">
+                  <input type="hidden" name="id_berita" value="<?php echo $row['id_berita']; ?>">
 
-                <div class="form-group row">
-                  <div class="col-sm-2 col-form-label"><label for="exampleInputJudul">Judul</label></div>
-                  <div class="col-sm-10">
-                    <input required type="text" class="form-control" id="Judul" placeholder="Masukan Judul Berita"
-                      name="judul" value="<?php echo $row['judul']; ?>">
-                  </div>
-                </div>
-
-                <div class="form-group row">
-                  <div class="col-sm-2 col-form-label"><label for="exampleInputIsi">Isi</label></div>
-                  <div class="col-sm-10">
-                    <textarea required class="form-control" id="isi" placeholder="Masukan Isi Berita"
-                      name="isi"><?php echo $row['isi']; ?></textarea>
-                  </div>
-                </div>
-
-                <div class="form-group row">
-                  <div class="col-sm-2 col-form-label"><label for="exampleInputKategori">Kategori</label></div>
-                  <div class="col-sm-10">
-                    <select name="kategori" class="form-control select2" data-placeholder="Pilih Kategori">
-                      <?php
-                      $results = mysqli_query($conn, "SELECT * from kategori");
-                      $option = '';
-                      while ($kategori = mysqli_fetch_array($results, MYSQLI_ASSOC)) {
-                        if (ucwords($_SESSION['nama_kategori']) == ucwords($kategori['nama_kategori'])) {
-                          $option .= '<option disabled value = "' . $kategori['id_kategori'] . '">' . $kategori['nama_kategori'] . '</option>';
-                        } else {
-                          $option .= '<option name="id" value = "' . $kategori['id_kategori'] . '">' . $kategori['nama_kategori'] . ' </option>';
-                        }
-                      }
-                      echo $option;
-                      ?>
-                    </select>
-                  </div>
-                </div>
-
-                <div class="form-group row">
-                  <div class="col-sm-2 col-form-label"><label for="exampleInputTgl">Tanggal</label></div>
-                  <div class="col-sm-10">
-                    <div class="input-group date" id="reservationdate" data-target-input="nearest">
-
-                      <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
-                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                      </div>
-                      <input type="text" class="form-control datetimepicker-input" data-target="#reservationdate"
-                        name="tanggal" value="<?php echo $row['tanggal']; ?>" />
-
+                  <div class="form-group row">
+                    <div class="col-sm-2 col-form-label"><label for="exampleInputJudul">Judul</label></div>
+                    <div class="col-sm-10">
+                      <input required type="text" class="form-control" id="Judul" placeholder="Masukan Judul Berita"
+                        name="judul" value="<?php echo $row['judul']; ?>">
                     </div>
                   </div>
-                </div>
 
-                <div class="form-group row">
-                  <div class="col-sm-2 col-form-label">
-                    <label for="exampleInputFile">File input</label>
+                  <div class="form-group row">
+                    <div class="col-sm-2 col-form-label"><label for="exampleInputIsi">Isi</label></div>
+                    <div class="col-sm-10">
+                      <textarea required class="form-control" id="isi" placeholder="Masukan Isi Berita"
+                        name="isi"><?php echo $row['isi']; ?></textarea>
+                    </div>
                   </div>
-                  <div class="col-sm-10">
-                    <input type="file" id="exampleInputFile" name="fileToUpload">
-                    <p class="help-block">
-                      <label style=" color:red" class="control-label" for="inputWarning"><i class="fa fa-bell-o"></i>
-                        File Max 1 mb (Wajib dalam format PNG/ JPG)</label>
+
+                  <div class="form-group row mb-3">
+                    <div class="col-sm-2 col-form-label"><label for="jenis">Kategori</label></div>
+                    <div class="col-sm-10">
+                      <select name="jenis" id="jenis" class="form-control select2">
+                        <?php
+                        $results_jenis = mysqli_query($conn, "SELECT * FROM kategori");
+                        $option_jenis = '';
+
+                        while ($row_jenis = mysqli_fetch_array($results_jenis, MYSQLI_ASSOC)) {
+                          if ($row['id_kategori'] == $row_jenis['id_kategori']) {
+                            $option_jenis .= '<option selected value="' . $row_jenis['id_kategori'] . '">' . $row_jenis['nama_kategori'] . '</option>';
+                          } else {
+                            $option_jenis .= '<option value="' . $row_jenis['id_kategori'] . '">' . $row_jenis['nama_kategori'] . '</option>';
+                          }
+                        }
+
+                        echo $option_jenis;
+                        ?>
+                      </select>
+                    </div>
                   </div>
-                </div>
+
+                  <?php
+                  // Format tanggal dari database
+                  $tanggal_database = $row['tanggal'];
+
+                  // Ubah format tanggal
+                  $tanggal = date("m-d-Y", strtotime($tanggal_database));
+                  ?>
+                  <div class="form-group row">
+                    <div class="col-sm-2 col-form-label"><label for="exampleInputTgl">Tanggal</label></div>
+                    <div class="col-sm-10">
+                      <div class="input-group date" id="reservationdate" data-target-input="nearest">
+
+                        <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                          <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        </div>
+                        <input type="text" class="form-control datetimepicker-input" data-target="#reservationdate"
+                          name="tanggal" value="<?php echo $tanggal ?>" />
+
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <div class="col-sm-2 col-form-label">
+                      <label for="exampleInputFile">File input</label>
+                    </div>
+                    <div class="col-sm-10">
+                      <input type="file" id="exampleInputFile" name="fileToUpload"> 
+                      <p class="help-block">
+                        <label style=" color:red" class="control-label" for="inputWarning"><i class="fa fa-bell-o"></i>
+                          File Max 1 mb (Wajib dalam format PNG/ JPG)</label>
+                    </div>
+                  </div>
+                <?php } ?>
                 <div class="box-footer">
                   <button type="submit" class="btn btn-dark btn-primary">Submit</button>
                 </div>
